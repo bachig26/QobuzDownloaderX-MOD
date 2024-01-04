@@ -1,4 +1,4 @@
-﻿namespace QobuzDownloaderX
+﻿namespace QobuzDownloaderX.View
 {
     partial class QobuzDownloaderX
     {
@@ -126,6 +126,7 @@
             this.mergeListsToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.releaseDateCheckbox = new System.Windows.Forms.CheckBox();
             this.urlCheckBox = new System.Windows.Forms.CheckBox();
+            this.queueLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.albumArtPicBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.logoBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.profilePictureBox)).BeginInit();
@@ -1143,9 +1144,9 @@
             // downloadSpeedLabel
             // 
             this.downloadSpeedLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(92)))), ((int)(((byte)(102)))));
-            this.downloadSpeedLabel.Location = new System.Drawing.Point(655, 506);
+            this.downloadSpeedLabel.Location = new System.Drawing.Point(736, 506);
             this.downloadSpeedLabel.Name = "downloadSpeedLabel";
-            this.downloadSpeedLabel.Size = new System.Drawing.Size(250, 13);
+            this.downloadSpeedLabel.Size = new System.Drawing.Size(169, 13);
             this.downloadSpeedLabel.TabIndex = 109;
             this.downloadSpeedLabel.Text = "Idle";
             this.downloadSpeedLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -1310,12 +1311,23 @@
             this.urlCheckBox.UseVisualStyleBackColor = true;
             this.urlCheckBox.CheckedChanged += new System.EventHandler(this.UrlCheckbox_CheckedChanged);
             // 
+            // queueLabel
+            // 
+            this.queueLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(92)))), ((int)(((byte)(102)))));
+            this.queueLabel.Location = new System.Drawing.Point(576, 506);
+            this.queueLabel.Name = "queueLabel";
+            this.queueLabel.Size = new System.Drawing.Size(154, 15);
+            this.queueLabel.TabIndex = 121;
+            this.queueLabel.Text = "Queue";
+            this.queueLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // QobuzDownloaderX
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             this.ClientSize = new System.Drawing.Size(938, 660);
+            this.Controls.Add(this.queueLabel);
             this.Controls.Add(this.urlCheckBox);
             this.Controls.Add(this.mergePerformersCheckBox);
             this.Controls.Add(this.ListEndSeparatorLabel);
@@ -1525,6 +1537,7 @@
         private System.Windows.Forms.ToolTip mergeListsToolTip;
         private System.Windows.Forms.CheckBox releaseDateCheckbox;
         private System.Windows.Forms.CheckBox urlCheckBox;
+        private System.Windows.Forms.Label queueLabel;
     }
 }
 

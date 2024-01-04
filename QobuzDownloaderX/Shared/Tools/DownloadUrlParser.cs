@@ -1,12 +1,12 @@
-﻿using QobuzDownloaderX.Models;
+﻿using QobuzDownloaderX.Models.Download;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace QobuzDownloaderX.Shared
+namespace QobuzDownloaderX.Shared.Tools
 
 {
     public static class DownloadUrlParser
-    { 
+    {
         // Pre-compiled supported download URL patterns
         private static readonly Regex[] DownloadUrlRegExes = {
             new Regex("https:\\/\\/(?:.*?).qobuz.com\\/(?<Type>.*?)\\/(?<id>.*?)$", RegexOptions.IgnoreCase | RegexOptions.Compiled),
@@ -19,16 +19,16 @@ namespace QobuzDownloaderX.Shared
 
         public static DownloadItem ParseDownloadUrl(string downloadUrl)
         {
-            DownloadItem downloadItem = new DownloadItem(downloadUrl);
+            var downloadItem = new DownloadItem(downloadUrl);
 
             if (string.IsNullOrEmpty(downloadUrl))
             {
                 return downloadItem;
             }
 
-            foreach (Regex regEx in DownloadUrlRegExes)
+            foreach (var regEx in DownloadUrlRegExes)
             {
-                Match matches = regEx.Match(downloadUrl);
+                var matches = regEx.Match(downloadUrl);
 
                 if (matches.Success)
                 {

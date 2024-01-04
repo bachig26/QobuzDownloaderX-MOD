@@ -1,4 +1,5 @@
 ﻿using QobuzApiSharp.Models.User;
+using QobuzDownloaderX.View;
 
 namespace QobuzDownloaderX.Shared
 {
@@ -15,7 +16,7 @@ namespace QobuzDownloaderX.Shared
 
         // Forms
         public static LoginForm LoginForm { get; set; }
-        public static QobuzDownloaderX QbdlxForm { get; set; }
+        public static View.QobuzDownloaderX QbdlxForm { get; set; }
         public static AboutForm AboutForm { get; set; }
         public static SearchForm SearchForm { get; set; }
 

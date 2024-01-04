@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace QobuzDownloaderX.Shared
+namespace QobuzDownloaderX.Shared.Tools
 {
     internal static class StringTools
     {
@@ -33,7 +33,7 @@ namespace QobuzDownloaderX.Shared
         {
             if (filename != null)
             {
-                string result = filename.Trim().TrimEnd('.');
+                var result = filename.Trim().TrimEnd('.');
                 return string.Join("_", result.Split(Path.GetInvalidFileNameChars()));
             }
             else
@@ -47,7 +47,7 @@ namespace QobuzDownloaderX.Shared
         {
             if (text != null)
             {
-                string result = text.Trim();
+                var result = text.Trim();
                 return result.Substring(0, Math.Min(result.Length, maxLength)).Trim();
             }
             else
@@ -70,7 +70,7 @@ namespace QobuzDownloaderX.Shared
 
         public static string FormatDurationInSeconds(double durationInSeconds)
         {
-            TimeSpan duration = TimeSpan.FromSeconds(durationInSeconds);
+            var duration = TimeSpan.FromSeconds(durationInSeconds);
 
             return duration.TotalHours < 1 ?
                 $"{duration:mm\\:ss}" :

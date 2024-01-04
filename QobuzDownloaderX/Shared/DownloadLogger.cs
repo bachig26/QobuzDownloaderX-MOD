@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Windows.Forms;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace QobuzDownloaderX.Shared
 {
@@ -24,9 +24,9 @@ namespace QobuzDownloaderX.Shared
         public void RemovePreviousErrorLog()
         {
             // Remove previous download error log
-            if (System.IO.File.Exists(downloadErrorLogPath))
+            if (File.Exists(downloadErrorLogPath))
             {
-                System.IO.File.Delete(downloadErrorLogPath);
+                File.Delete(downloadErrorLogPath);
             }
         }
 
@@ -41,28 +41,36 @@ namespace QobuzDownloaderX.Shared
         /// <param name="logToScreen">Should string be logged to screen?</param>
         public void AddDownloadLogLine(string logEntry, bool logToFile, bool logToScreen = false)
         {
-            if (string.IsNullOrEmpty(logEntry)) return;
-
-            if (logToScreen) ScreenOutputTextBox?.Invoke(new Action(() => ScreenOutputTextBox.AppendText(logEntry)));
-
-            if (logToFile)
+            if (string.IsNullOrEmpty(logEntry))
             {
-                var logEntries = logEntry.Split(new[] { Environment.NewLine }, StringSplitOptions.None)
-                    .Select(logLine => string.IsNullOrWhiteSpace(logLine) ? logLine : $"{DateTime.Now:yyyy-MM-dd HH:mm:ss.fff} : {logLine}");
-
-                // Filter out all empty lines exept if the logEntry started with an empty line to avoid blank lines for each newline in UI
-                var filteredLogEntries = logEntries.Aggregate(new List<string>(), (accumulator, current) =>
-                {
-                    if (accumulator.Count == 0 || !string.IsNullOrWhiteSpace(current))
-                    {
-                        accumulator.Add(current);
-                    }
-
-                    return accumulator;
-                });
-
-                System.IO.File.AppendAllLines(DownloadLogPath, filteredLogEntries);
+                return;
             }
+
+            if (logToScreen)
+            {
+                ScreenOutputTextBox?.Invoke(new Action(() => ScreenOutputTextBox.AppendText(logEntry)));
+            }
+
+            if (!logToFile)
+            {
+                return;
+            }
+
+            var logEntries = logEntry.Split(new[] { Environment.NewLine }, StringSplitOptions.None)
+                .Select(logLine => string.IsNullOrWhiteSpace(logLine) ? logLine : $"{DateTime.Now:yyyy-MM-dd HH:mm:ss.fff} : {logLine}");
+
+            // Filter out all empty lines exept if the logEntry started with an empty line to avoid blank lines for each newline in UI
+            var filteredLogEntries = logEntries.Aggregate(new List<string>(), (accumulator, current) =>
+            {
+                if (accumulator.Count == 0 || !string.IsNullOrWhiteSpace(current))
+                {
+                    accumulator.Add(current);
+                }
+
+                return accumulator;
+            });
+
+            File.AppendAllLines(DownloadLogPath, filteredLogEntries);
         }
 
         /// <summary>
@@ -88,9 +96,12 @@ namespace QobuzDownloaderX.Shared
 
         public void AddDownloadErrorLogLines(IEnumerable<string> logEntries)
         {
-            if (logEntries == null && !logEntries.Any()) return;
+            if (logEntries == null && !logEntries.Any())
+            {
+                return;
+            }
 
-            System.IO.File.AppendAllLines(downloadErrorLogPath, logEntries);
+            File.AppendAllLines(downloadErrorLogPath, logEntries);
         }
 
         public void AddDownloadErrorLogLine(string logEntry)
@@ -116,19 +127,15 @@ namespace QobuzDownloaderX.Shared
             updateUiOnDownloadEnd?.Invoke();
         }
 
-        public void LogFinishedDownloadJob(bool noErrorsOccured)
+        public void LogFinishedDownloadJob(bool noErrorsOccurred)
         {
             AddEmptyDownloadLogLine(true, true);
 
             // Say that downloading is completed.
-            if (noErrorsOccured)
-            {
-                AddDownloadLogLine("Download job completed! All downloaded files will be located in your chosen path.", true, true);
-            }
-            else
-            {
-                AddDownloadLogLine("Download job completed with warnings and/or errors! Some or all files could be missing!", true, true);
-            }
+            AddDownloadLogLine(
+                noErrorsOccurred
+                    ? "Download job completed! All downloaded files will be located in your chosen path."
+                    : "Download job completed with warnings and/or errors! Some or all files could be missing!", true, true);
 
             updateUiOnDownloadEnd?.Invoke();
         }
