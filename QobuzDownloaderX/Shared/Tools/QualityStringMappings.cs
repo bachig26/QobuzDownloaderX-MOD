@@ -1,7 +1,7 @@
 ﻿using QobuzApiSharp.Models.Content;
 using System.Collections.Generic;
 
-namespace QobuzDownloaderX.Shared
+namespace QobuzDownloaderX.Shared.Tools
 {
     public static class QualityStringMappings
     {
@@ -47,11 +47,11 @@ namespace QobuzDownloaderX.Shared
         public static (string displayQuality, string pathSafeQuality) GetQualityStrings(string formatIdString, Album qobuzAlbum)
         {
             // Get Max bitDepth & sampleRate from API result.
-            double bitDepth = qobuzAlbum.MaximumBitDepth.GetValueOrDefault();
-            double sampleRate = qobuzAlbum.MaximumSamplingRate.GetValueOrDefault();
+            var bitDepth = qobuzAlbum.MaximumBitDepth.GetValueOrDefault();
+            var sampleRate = qobuzAlbum.MaximumSamplingRate.GetValueOrDefault();
 
-            double maxSelectedQuality = GetMaxBitDepth(formatIdString) * GetMaxSampleRate(formatIdString);
-            double maxItemQuality = bitDepth * sampleRate;
+            var maxSelectedQuality = GetMaxBitDepth(formatIdString) * GetMaxSampleRate(formatIdString);
+            var maxItemQuality = bitDepth * sampleRate;
 
             // Limit to selected quality if album quality is higher.
             if (maxSelectedQuality <= maxItemQuality)

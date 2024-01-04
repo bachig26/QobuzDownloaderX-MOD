@@ -1,4 +1,4 @@
-﻿namespace QobuzDownloaderX.Models.Content
+﻿namespace QobuzDownloaderX.Shared
 {
     public enum GoodiesFileType
     {

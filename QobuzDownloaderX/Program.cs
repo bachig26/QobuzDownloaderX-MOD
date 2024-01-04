@@ -1,5 +1,8 @@
 ﻿using Bluegrams.Application;
+using QobuzDownloaderX.Properties;
 using QobuzDownloaderX.Shared;
+using QobuzDownloaderX.Shared.Tools;
+using QobuzDownloaderX.View;
 using System;
 using System.Globalization;
 using System.Windows.Forms;
@@ -18,7 +21,7 @@ namespace QobuzDownloaderX
             PortableSettingsProviderBase.SettingsDirectory = FileTools.GetInitializedSettingsDir();
             // Global override of every settings "Roaming" property.
             PortableSettingsProviderBase.AllRoaming = true;
-            PortableJsonSettingsProvider.ApplyProvider(Properties.Settings.Default);
+            PortableJsonSettingsProvider.ApplyProvider(Settings.Default);
 
             // Use en-US formatting everywhere for consistency
             var culture = CultureInfo.GetCultureInfo("en-US");

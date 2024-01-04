@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using System.Windows.Forms;
 
-namespace QobuzDownloaderX.Shared
+namespace QobuzDownloaderX.Shared.Tools
 {
     internal static class ControlTools
     {
@@ -17,7 +17,7 @@ namespace QobuzDownloaderX.Shared
         {
             while (userControl.Controls.Count > 0)
             {
-                Control control = userControl.Controls[0];
+                var control = userControl.Controls[0];
                 if (control.HasChildren)
                 {
                     RemoveControls(control); // Recursively remove and dispose all children
