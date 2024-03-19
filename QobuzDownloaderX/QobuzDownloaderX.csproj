@@ -227,7 +227,7 @@
       <Version>13.0.3</Version>
     </PackageReference>
     <PackageReference Include="PlaylistsNET">
-      <Version>1.4.0</Version>
+      <Version>1.4.1</Version>
     </PackageReference>
     <PackageReference Include="PortableJsonSettingsProvider">
       <Version>0.2.2</Version>
