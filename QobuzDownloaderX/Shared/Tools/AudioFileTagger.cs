@@ -274,6 +274,18 @@ namespace QobuzDownloaderX.Shared
                     // Comment tag
                     if (Globals.TaggingOptions.WriteCommentTag) { tfile.Tag.Comment = Globals.TaggingOptions.CommentTag; }
 
+                    // Source tag
+                    if (Globals.TaggingOptions.WriteSourceTag) { custom.SetField("SOURCE", "Qobuz"); }
+
+                    // Source URL tag
+                    if (Globals.TaggingOptions.WriteSourceUrlTag) { custom.SetField("SOURCEURL", Globals.TaggingOptions.SourceUrlTag); }
+
+                    // Download Date tag
+                    if (Globals.TaggingOptions.WriteDownloadDateTag) { custom.SetField("DOWNLOADDATE", DateTime.Now.ToString("yyyy-MM-dd")); }
+
+                    // Download Tool tag
+                    if (Globals.TaggingOptions.WriteDownloadToolTag) { custom.SetField("DOWNLOADTOOL", Globals.TaggingOptions.DownloadToolTag); }
+
                     // Copyright tag
                     if (Globals.TaggingOptions.WriteCopyrightTag) { tfile.Tag.Copyright = fileInfo.Copyright; }
 

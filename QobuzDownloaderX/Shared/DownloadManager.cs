@@ -373,7 +373,7 @@ namespace QobuzDownloaderX.Shared
 
             List<Goody> booklets = qobuzAlbum.Goodies?.Where(g => g.FileFormatId == (int)GoodiesFileType.BOOKLET).ToList();
 
-            if (booklets == null || !booklets.Any())
+            if (booklets == null || booklets?.Any() != true)
             {
                 // No booklets found, just return
                 return noErrorsOccured;
@@ -883,7 +883,7 @@ namespace QobuzDownloaderX.Shared
                 bool noArtistErrorsOccured = true;
 
                 // Get UserFavoritesIds model object, getting Id's allows all results at once.
-                UserFavoritesIds qobuzUserFavoritesIds = ExecuteApiCall(apiService => apiService.GetUserFavoriteIds(DownloadInfo.DowloadItemID));
+                UserFavoritesIds qobuzUserFavoritesIds = ExecuteApiCall(apiService => apiService.GetUserFavoriteIds(DownloadInfo.DowloadItemID, "artists"));
 
                 // If API call failed, abort
                 if (qobuzUserFavoritesIds == null) { return; }
@@ -944,7 +944,7 @@ namespace QobuzDownloaderX.Shared
                 bool noTrackErrorsOccured = true;
 
                 // Get UserFavoritesIds model object, getting Id's allows all results at once.
-                UserFavoritesIds qobuzUserFavoritesIds = ExecuteApiCall(apiService => apiService.GetUserFavoriteIds(DownloadInfo.DowloadItemID));
+                UserFavoritesIds qobuzUserFavoritesIds = ExecuteApiCall(apiService => apiService.GetUserFavoriteIds(DownloadInfo.DowloadItemID, "tracks"));
 
                 // If API call failed, abort
                 if (qobuzUserFavoritesIds == null) { return; }

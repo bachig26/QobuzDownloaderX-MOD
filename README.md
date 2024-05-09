@@ -23,8 +23,7 @@ Some changes include:
 - Isolated Qobuz API interaction to a separate library project [QobuzApiSharp](https://github.com/DJDoubleD/QobuzApiSharp).
 - Complete refactoring of backend code.
 - Added completely revamped search function.
-- Added comprehensive logging.
-- Lots of new features and bugfixes.
+- Lots of new features and bugfixes
 
 See release notes in [releases](../../releases) section for full overview of all fixes and changes.  
 Check out the [Wiki](../../wiki) for more information about using QBDLX-MOD.
