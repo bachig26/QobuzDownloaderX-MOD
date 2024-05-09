@@ -28,6 +28,19 @@ Some changes include:
 See release notes in [releases](../../releases) section for full overview of all fixes and changes.  
 Check out the [Wiki](../../wiki) for more information about using QBDLX-MOD.
 
+YSMOD Version
+Im a self learned proggamer and new using git. Fell free to tell me if i do something wrong.
+I still dont fully understand about how it get the file from the source but currently I just added some UI features.
+In this version i added below features.
+
+Added 4 new toggle-able tag. (Source, SourceUrl, DownloadDate, DownloadTool)
+- Source (SOURCE) 			      = will write "Qobuz" as the source.
+- SourceUrl (SOURCEURL) 		  = play.qobuz link.
+- DownloadDate (DOWNLOADDATE) = today date with format yyyy-MM-dd.
+- DownloadTool (DOWNLOADTOOL) = you can freely edit this. this tag mean to save info of the tool you use to download the file.
+
+Added preview of cover image. You can also resize the window to see the picture in larger view.
+
 # Disclaimer & Legal
 
 I will not be responsible for how you use QBDLX-MOD (QobuzDownloaderX-MOD).
