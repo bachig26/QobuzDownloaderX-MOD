@@ -28,10 +28,10 @@ Some changes include:
 See release notes in [releases](../../releases) section for full overview of all fixes and changes.  
 Check out the [Wiki](../../wiki) for more information about using QBDLX-MOD.
 
-YSMOD Version
-Im a self learned proggamer and new using git. Fell free to tell me if i do something wrong.
-I still dont fully understand about how it get the file from the source but currently I just added some UI features.
-In this version i added below features.
+### YSMOD Version<br>
+Im a self learned proggamer and new using git. Fell free to tell me if i do something wrong.<br>
+I still dont fully understand about how it get the file from the source but currently I just added some UI features.<br>
+In this version i added below features.<br>
 
 Added 4 new toggle-able tag. (Source, SourceUrl, DownloadDate, DownloadTool)
 - Source (SOURCE) 			      = will write "Qobuz" as the source.
@@ -40,6 +40,10 @@ Added 4 new toggle-able tag. (Source, SourceUrl, DownloadDate, DownloadTool)
 - DownloadTool (DOWNLOADTOOL) = you can freely edit this. this tag mean to save info of the tool you use to download the file.
 
 Added preview of cover image. You can also resize the window to see the picture in larger view.
+
+#### Screenshoot<br>
+![SS_Added_Tag](./-assets/SS_Added_Tag.png?raw=true)
+![SS_Cover_Preview](./-assets/SS_Cover_Preview.png?raw=true)
 
 # Disclaimer & Legal
 
