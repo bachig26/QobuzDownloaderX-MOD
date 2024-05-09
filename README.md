@@ -34,10 +34,10 @@ I still dont fully understand about how it get the file from the source but curr
 In this version i added below features.
 
 Added 4 new toggle-able tag. (Source, SourceUrl, DownloadDate, DownloadTool)
-Source (SOURCE) 			      = will write "Qobuz" as the source.
-SourceUrl (SOURCEURL) 		  = play.qobuz link.
-DownloadDate (DOWNLOADDATE) = today date with format yyyy-MM-dd.
-DownloadTool (DOWNLOADTOOL) = you can freely edit this. this tag mean to save info of the tool you use to download the file.
+- Source (SOURCE) 			      = will write "Qobuz" as the source.
+- SourceUrl (SOURCEURL) 		  = play.qobuz link.
+- DownloadDate (DOWNLOADDATE) = today date with format yyyy-MM-dd.
+- DownloadTool (DOWNLOADTOOL) = you can freely edit this. this tag mean to save info of the tool you use to download the file.
 
 Added preview of cover image. You can also resize the window to see the picture in larger view.
 
