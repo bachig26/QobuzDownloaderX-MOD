@@ -126,6 +126,12 @@
             this.mergeListsToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.releaseDateCheckbox = new System.Windows.Forms.CheckBox();
             this.urlCheckBox = new System.Windows.Forms.CheckBox();
+            this.downloadDateCheckbox = new System.Windows.Forms.CheckBox();
+            this.panel12 = new System.Windows.Forms.Panel();
+            this.downloadToolTextbox = new System.Windows.Forms.TextBox();
+            this.downloadToolCheckbox = new System.Windows.Forms.CheckBox();
+            this.sourceUrlCheckbox = new System.Windows.Forms.CheckBox();
+            this.sourceCheckbox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.albumArtPicBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.logoBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.profilePictureBox)).BeginInit();
@@ -200,6 +206,7 @@
             this.downloadUrl.Size = new System.Drawing.Size(576, 20);
             this.downloadUrl.TabIndex = 1;
             this.downloadUrl.WordWrap = false;
+            this.downloadUrl.TextChanged += new System.EventHandler(this.DownloadUrl_TextChanged);
             this.downloadUrl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DownloadUrl_KeyDown);
             // 
             // imageURLTextbox
@@ -680,7 +687,7 @@
             this.commentTextbox.Location = new System.Drawing.Point(646, 593);
             this.commentTextbox.Multiline = true;
             this.commentTextbox.Name = "commentTextbox";
-            this.commentTextbox.Size = new System.Drawing.Size(112, 17);
+            this.commentTextbox.Size = new System.Drawing.Size(269, 17);
             this.commentTextbox.TabIndex = 35;
             this.commentTextbox.TextChanged += new System.EventHandler(this.CommentTextbox_TextChanged);
             // 
@@ -753,7 +760,7 @@
             // 
             this.mp3WarnLabel.AutoSize = true;
             this.mp3WarnLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(92)))), ((int)(((byte)(102)))));
-            this.mp3WarnLabel.Location = new System.Drawing.Point(744, 621);
+            this.mp3WarnLabel.Location = new System.Drawing.Point(744, 655);
             this.mp3WarnLabel.Name = "mp3WarnLabel";
             this.mp3WarnLabel.Size = new System.Drawing.Size(182, 13);
             this.mp3WarnLabel.TabIndex = 85;
@@ -850,9 +857,9 @@
             // panel8
             // 
             this.panel8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(92)))), ((int)(((byte)(102)))));
-            this.panel8.Location = new System.Drawing.Point(646, 612);
+            this.panel8.Location = new System.Drawing.Point(646, 610);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(112, 1);
+            this.panel8.Size = new System.Drawing.Size(269, 1);
             this.panel8.TabIndex = 90;
             // 
             // streamableCheckbox
@@ -941,7 +948,7 @@
             "150",
             "100",
             "50"});
-            this.artSizeSelect.Location = new System.Drawing.Point(113, 621);
+            this.artSizeSelect.Location = new System.Drawing.Point(113, 655);
             this.artSizeSelect.Name = "artSizeSelect";
             this.artSizeSelect.Size = new System.Drawing.Size(87, 21);
             this.artSizeSelect.TabIndex = 36;
@@ -951,7 +958,7 @@
             // 
             this.artSizeLabel.AutoSize = true;
             this.artSizeLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(92)))), ((int)(((byte)(102)))));
-            this.artSizeLabel.Location = new System.Drawing.Point(12, 624);
+            this.artSizeLabel.Location = new System.Drawing.Point(12, 658);
             this.artSizeLabel.Name = "artSizeLabel";
             this.artSizeLabel.Size = new System.Drawing.Size(207, 13);
             this.artSizeLabel.TabIndex = 97;
@@ -1022,7 +1029,7 @@
             // 
             this.maxLengthLabel.AutoSize = true;
             this.maxLengthLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(92)))), ((int)(((byte)(102)))));
-            this.maxLengthLabel.Location = new System.Drawing.Point(444, 624);
+            this.maxLengthLabel.Location = new System.Drawing.Point(444, 658);
             this.maxLengthLabel.Name = "maxLengthLabel";
             this.maxLengthLabel.Size = new System.Drawing.Size(121, 13);
             this.maxLengthLabel.TabIndex = 102;
@@ -1031,7 +1038,7 @@
             // panel9
             // 
             this.panel9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(92)))), ((int)(((byte)(102)))));
-            this.panel9.Location = new System.Drawing.Point(567, 638);
+            this.panel9.Location = new System.Drawing.Point(567, 672);
             this.panel9.Name = "panel9";
             this.panel9.Size = new System.Drawing.Size(68, 1);
             this.panel9.TabIndex = 92;
@@ -1041,7 +1048,7 @@
             this.maxLengthTextbox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             this.maxLengthTextbox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.maxLengthTextbox.ForeColor = System.Drawing.Color.White;
-            this.maxLengthTextbox.Location = new System.Drawing.Point(567, 624);
+            this.maxLengthTextbox.Location = new System.Drawing.Point(567, 658);
             this.maxLengthTextbox.Multiline = true;
             this.maxLengthTextbox.Name = "maxLengthTextbox";
             this.maxLengthTextbox.Size = new System.Drawing.Size(68, 17);
@@ -1052,7 +1059,7 @@
             // 
             this.maxLengthWarnLabel.AutoSize = true;
             this.maxLengthWarnLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(92)))), ((int)(((byte)(102)))));
-            this.maxLengthWarnLabel.Location = new System.Drawing.Point(819, 635);
+            this.maxLengthWarnLabel.Location = new System.Drawing.Point(819, 669);
             this.maxLengthWarnLabel.Name = "maxLengthWarnLabel";
             this.maxLengthWarnLabel.Size = new System.Drawing.Size(107, 13);
             this.maxLengthWarnLabel.TabIndex = 103;
@@ -1099,7 +1106,7 @@
             this.filenameTempSelect.Items.AddRange(new object[] {
             "00 Trackname",
             "00 - Trackname"});
-            this.filenameTempSelect.Location = new System.Drawing.Point(325, 621);
+            this.filenameTempSelect.Location = new System.Drawing.Point(325, 655);
             this.filenameTempSelect.Name = "filenameTempSelect";
             this.filenameTempSelect.Size = new System.Drawing.Size(108, 21);
             this.filenameTempSelect.TabIndex = 37;
@@ -1109,7 +1116,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(92)))), ((int)(((byte)(102)))));
-            this.label7.Location = new System.Drawing.Point(225, 624);
+            this.label7.Location = new System.Drawing.Point(225, 658);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(99, 13);
             this.label7.TabIndex = 108;
@@ -1310,12 +1317,99 @@
             this.urlCheckBox.UseVisualStyleBackColor = true;
             this.urlCheckBox.CheckedChanged += new System.EventHandler(this.UrlCheckbox_CheckedChanged);
             // 
+            // downloadDateCheckbox
+            // 
+            this.downloadDateCheckbox.AutoSize = true;
+            this.downloadDateCheckbox.Checked = true;
+            this.downloadDateCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.downloadDateCheckbox.FlatAppearance.BorderSize = 0;
+            this.downloadDateCheckbox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(92)))), ((int)(((byte)(102)))));
+            this.downloadDateCheckbox.Location = new System.Drawing.Point(169, 622);
+            this.downloadDateCheckbox.Name = "downloadDateCheckbox";
+            this.downloadDateCheckbox.Size = new System.Drawing.Size(100, 17);
+            this.downloadDateCheckbox.TabIndex = 121;
+            this.downloadDateCheckbox.Text = "Download Date";
+            this.downloadDateCheckbox.UseVisualStyleBackColor = true;
+            this.downloadDateCheckbox.CheckedChanged += new System.EventHandler(this.DownloadDateCheckbox_CheckedChanged);
+            // 
+            // panel12
+            // 
+            this.panel12.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(92)))), ((int)(((byte)(102)))));
+            this.panel12.Location = new System.Drawing.Point(375, 638);
+            this.panel12.Name = "panel12";
+            this.panel12.Size = new System.Drawing.Size(369, 1);
+            this.panel12.TabIndex = 124;
+            // 
+            // downloadToolTextbox
+            // 
+            this.downloadToolTextbox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.downloadToolTextbox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.downloadToolTextbox.ForeColor = System.Drawing.Color.White;
+            this.downloadToolTextbox.Location = new System.Drawing.Point(376, 621);
+            this.downloadToolTextbox.Multiline = true;
+            this.downloadToolTextbox.Name = "downloadToolTextbox";
+            this.downloadToolTextbox.Size = new System.Drawing.Size(369, 17);
+            this.downloadToolTextbox.TabIndex = 123;
+            this.downloadToolTextbox.Text = "QobuzDownloaderX-MOD by DJDoubleD - v1.2.5.0 - FLAC 16/44.1";
+            this.downloadToolTextbox.TextChanged += new System.EventHandler(this.DownloadToolTextbox_TextChanged);
+            // 
+            // downloadToolCheckbox
+            // 
+            this.downloadToolCheckbox.AutoSize = true;
+            this.downloadToolCheckbox.Checked = true;
+            this.downloadToolCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.downloadToolCheckbox.FlatAppearance.BorderSize = 0;
+            this.downloadToolCheckbox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(92)))), ((int)(((byte)(102)))));
+            this.downloadToolCheckbox.Location = new System.Drawing.Point(275, 622);
+            this.downloadToolCheckbox.Name = "downloadToolCheckbox";
+            this.downloadToolCheckbox.Size = new System.Drawing.Size(98, 17);
+            this.downloadToolCheckbox.TabIndex = 122;
+            this.downloadToolCheckbox.Text = "Download Tool";
+            this.downloadToolCheckbox.UseVisualStyleBackColor = true;
+            this.downloadToolCheckbox.CheckedChanged += new System.EventHandler(this.DownloadToolCheckbox_CheckedChanged);
+            // 
+            // sourceUrlCheckbox
+            // 
+            this.sourceUrlCheckbox.AutoSize = true;
+            this.sourceUrlCheckbox.Checked = true;
+            this.sourceUrlCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.sourceUrlCheckbox.FlatAppearance.BorderSize = 0;
+            this.sourceUrlCheckbox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(92)))), ((int)(((byte)(102)))));
+            this.sourceUrlCheckbox.Location = new System.Drawing.Point(78, 622);
+            this.sourceUrlCheckbox.Name = "sourceUrlCheckbox";
+            this.sourceUrlCheckbox.Size = new System.Drawing.Size(85, 17);
+            this.sourceUrlCheckbox.TabIndex = 125;
+            this.sourceUrlCheckbox.Text = "Source URL";
+            this.sourceUrlCheckbox.UseVisualStyleBackColor = true;
+            this.sourceUrlCheckbox.CheckedChanged += new System.EventHandler(this.SourceUrlCheckbox_CheckedChanged);
+            // 
+            // sourceCheckbox
+            // 
+            this.sourceCheckbox.AutoSize = true;
+            this.sourceCheckbox.Checked = true;
+            this.sourceCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.sourceCheckbox.FlatAppearance.BorderSize = 0;
+            this.sourceCheckbox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(92)))), ((int)(((byte)(102)))));
+            this.sourceCheckbox.Location = new System.Drawing.Point(12, 622);
+            this.sourceCheckbox.Name = "sourceCheckbox";
+            this.sourceCheckbox.Size = new System.Drawing.Size(60, 17);
+            this.sourceCheckbox.TabIndex = 126;
+            this.sourceCheckbox.Text = "Source";
+            this.sourceCheckbox.UseVisualStyleBackColor = true;
+            this.sourceCheckbox.CheckedChanged += new System.EventHandler(this.SourceCheckbox_CheckedChanged);
+            // 
             // QobuzDownloaderX
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.ClientSize = new System.Drawing.Size(938, 660);
+            this.ClientSize = new System.Drawing.Size(938, 694);
+            this.Controls.Add(this.sourceCheckbox);
+            this.Controls.Add(this.sourceUrlCheckbox);
+            this.Controls.Add(this.panel12);
+            this.Controls.Add(this.downloadToolTextbox);
+            this.Controls.Add(this.downloadToolCheckbox);
+            this.Controls.Add(this.downloadDateCheckbox);
             this.Controls.Add(this.urlCheckBox);
             this.Controls.Add(this.mergePerformersCheckBox);
             this.Controls.Add(this.ListEndSeparatorLabel);
@@ -1525,6 +1619,12 @@
         private System.Windows.Forms.ToolTip mergeListsToolTip;
         private System.Windows.Forms.CheckBox releaseDateCheckbox;
         private System.Windows.Forms.CheckBox urlCheckBox;
+        private System.Windows.Forms.CheckBox downloadDateCheckbox;
+        private System.Windows.Forms.Panel panel12;
+        private System.Windows.Forms.TextBox downloadToolTextbox;
+        private System.Windows.Forms.CheckBox downloadToolCheckbox;
+        private System.Windows.Forms.CheckBox sourceUrlCheckbox;
+        private System.Windows.Forms.CheckBox sourceCheckbox;
     }
 }
 

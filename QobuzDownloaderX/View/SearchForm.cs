@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Security.Policy;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -122,6 +123,7 @@ namespace QobuzDownloaderX
             FillResultsTablePanel(searchResult?.Albums?.Items, album => new SearchResultRow
             {
                 ThumbnailUrl = album.Image.Thumbnail,
+                CoverUrl = album.Image.Large,
                 Artist = album.Artist.Name,
                 Title = StringTools.DecodeEncodedNonAsciiCharacters(album.Version != null ? $"{album.Title.TrimEnd()} ({album.Version})" : album.Title.TrimEnd()),
                 Explicit = album.ParentalWarning.GetValueOrDefault(),
@@ -140,6 +142,7 @@ namespace QobuzDownloaderX
             FillResultsTablePanel(searchResult?.Tracks?.Items, track => new SearchResultRow
             {
                 ThumbnailUrl = track.Album.Image.Thumbnail,
+                CoverUrl = track.Album.Image.Large,
                 Artist = track.Performer.Name,
                 Title = StringTools.DecodeEncodedNonAsciiCharacters(track.Version != null ? $"{track.Title.TrimEnd()} ({track.Version})" : track.Title.TrimEnd()),
                 Explicit = track.ParentalWarning.GetValueOrDefault(),
@@ -171,7 +174,7 @@ namespace QobuzDownloaderX
 
             Color rowColor = GetResultRowColor(currentRow);
 
-            PictureBox thumbnail = CreateThumbnail(result.ThumbnailUrl, rowColor);
+            PictureBox thumbnail = CreateThumbnail(result.ThumbnailUrl, result.CoverUrl, rowColor);
             resultsTableLayoutPanel.Controls.Add(thumbnail, 0, currentRow);
 
             TableLayoutPanel secondColumnPanel = CreateReleaseInfoColumn(result, rowColor);
@@ -189,17 +192,36 @@ namespace QobuzDownloaderX
             return currentRow % 2 == 1 ? Color.FromArgb(33, 33, 33) : Color.FromArgb(45, 45, 45);
         }
 
-        private PictureBox CreateThumbnail(string thumbnailUrl, Color rowColor)
+        private PictureBox CreateThumbnail(string thumbnailUrl,string coverUrl, Color rowColor)
         {
-            return new PictureBox
+            PictureBox pictureBox = new PictureBox
             {
                 ImageLocation = thumbnailUrl,
                 SizeMode = PictureBoxSizeMode.CenterImage,
                 Size = new Size(50, 50),
                 Anchor = AnchorStyles.None,
                 Dock = DockStyle.Fill,
-                BackColor = rowColor
+                BackColor = rowColor,
+                Cursor = Cursors.Hand
             };
+            pictureBox.Click += (sender, e) =>
+            {
+                Debug.WriteLine("pictureBox.Click");
+                if (string.IsNullOrEmpty(coverUrl))
+                {
+                    Debug.WriteLine("coverUrl IsNullOrEmpty");
+                    return;
+                }
+                Globals.CoverForm.SetPicture(coverUrl);
+                if (Globals.CoverForm.Visible)
+                {
+                    Debug.WriteLine("CoverForm Visible");
+                    return;
+                }
+                Globals.CoverForm.Show();
+            };
+
+            return pictureBox;
         }
 
         private TableLayoutPanel CreateReleaseInfoColumn(SearchResultRow result, Color rowColor)

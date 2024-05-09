@@ -289,6 +289,7 @@ namespace QobuzDownloaderX
             // Login successful, create main forms
             Globals.QbdlxForm = new QobuzDownloaderX();
             Globals.SearchForm = new SearchForm();
+            Globals.CoverForm = new CoverForm();
 
             this.Invoke(new Action(() => this.Hide()));
             Application.Run(Globals.QbdlxForm);
