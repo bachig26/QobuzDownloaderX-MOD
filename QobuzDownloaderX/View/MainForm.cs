@@ -256,7 +256,7 @@ namespace QobuzDownloaderX
                 output.Invoke(new Action(() => output.AppendText($"No path has been set! Remember to Choose a Folder!{Environment.NewLine}")));
                 return;
             }
-            
+
             string[] downloadLinks = null;
             
             // Split the download text into numerous strings based on the newline character based on OS
@@ -268,7 +268,10 @@ namespace QobuzDownloaderX
             } else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) {
                 downloadLinks = downloadLink.Split("\r".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
             }
-            
+
+            if (downloadLinks is null) {
+                return;
+            }
 
             foreach(string link in downloadLinks)
             {
