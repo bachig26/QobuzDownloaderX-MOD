@@ -21,7 +21,7 @@ namespace QobuzDownloaderX.Shared
         private static void AddFont(byte[] fontData)
         {
             // Converteer byte array naar IntPtr en voeg toe aan de fontcollectie
-            IntPtr fontPtr = Marshal.AllocCoTaskMem(fontData.Length);
+            var fontPtr = Marshal.AllocCoTaskMem(fontData.Length);
             Marshal.Copy(fontData, 0, fontPtr, fontData.Length);
 
             // We HAVE to do this to register the font to the system (Weird .NET bug !)

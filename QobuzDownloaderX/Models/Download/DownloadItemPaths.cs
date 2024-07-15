@@ -1,4 +1,4 @@
-﻿namespace QobuzDownloaderX.Models
+﻿namespace QobuzDownloaderX.Models.Download
 {
     public class DownloadItemPaths
     {
@@ -15,6 +15,5 @@
         public string Path1Full { get; set; }
         public string Path2Full { get; set; }
         public string Path3Full { get; set; }
-        public string Path4Full { get; set; }
     }
 }

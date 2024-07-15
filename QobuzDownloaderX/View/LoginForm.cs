@@ -1,8 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using QobuzApiSharp.Exceptions;
-using QobuzDownloaderX.Properties;
 using QobuzDownloaderX.Shared;
-using QobuzDownloaderX.View;
+using QobuzDownloaderX.Shared.Tools;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,7 +15,7 @@ using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
-namespace QobuzDownloaderX
+namespace QobuzDownloaderX.View
 {
     public partial class LoginForm : HeadlessForm
     {
@@ -42,6 +41,9 @@ namespace QobuzDownloaderX
         {
             Application.Exit();
         }
+
+        private bool disableUpdateChecker = true;
+        
         private async void LoginFrm_Load(object sender, EventArgs e)
         {
             // Get and display version number.
@@ -69,11 +71,11 @@ namespace QobuzDownloaderX
             */
 
             // Set saved settings to correct places.
-            emailTextbox.Text = Settings.Default.savedEmail;
-            passwordTextbox.Text = Settings.Default.savedPassword;
-            userIdTextbox.Text = Settings.Default.savedUserID;
-            userAuthTokenTextbox.Text = Settings.Default.savedUserAuthToken;
-            AltLoginValue = Settings.Default.savedAltLoginValue;
+            emailTextbox.Text = Properties.Settings.Default.savedEmail;
+            passwordTextbox.Text = Properties.Settings.Default.savedPassword;
+            userIdTextbox.Text = Properties.Settings.Default.savedUserID;
+            userAuthTokenTextbox.Text = Properties.Settings.Default.savedUserAuthToken;
+            AltLoginValue = Properties.Settings.Default.savedAltLoginValue;
 
             // Set alt login mode & label text based on saved value
             if (AltLoginValue == "0")
@@ -155,43 +157,45 @@ namespace QobuzDownloaderX
                 userAuthTokenTextbox.Text = "user_auth_token";
             }
 
+          if (!disableUpdateChecker)
+          {
             try
             {
                 // Create HttpClient to grab version number from Github
                 // Force minimum TLS 1.2 as Github does not support TLS 1.1 and lower
-                var versionURLClient = new HttpClient(new HttpClientHandler { SslProtocols = SslProtocols.Tls12 | SslProtocols.Tls13});
+                var versionURLClient = new HttpClient(new HttpClientHandler { SslProtocols = SslProtocols.Tls12 | SslProtocols.Tls13 });
                 // Set user-agent to Firefox.
                 versionURLClient.DefaultRequestHeaders.Add("User-Agent", Globals.USER_AGENT);
 
                 // Grab response from Github to get latest application version.
-                string versionURL = Globals.GITHUB_LATEST_VERSION_URL;
+                var versionURL = Globals.GITHUB_LATEST_VERSION_URL;
                 var versionURLResponse = await versionURLClient.GetAsync(versionURL);
-                string versionURLResponseString = await versionURLResponse.Content.ReadAsStringAsync();
+                var versionURLResponseString = await versionURLResponse.Content.ReadAsStringAsync();
 
                 // Grab metadata from API JSON response
-                JObject joVersionResponse = JObject.Parse(versionURLResponseString);
+                var joVersionResponse = JObject.Parse(versionURLResponseString);
 
                 // Grab latest version number
-                string remoteVersionString = (string)joVersionResponse["tag_name"];
+                var remoteVersionString = (string)joVersionResponse["tag_name"];
                 // Grab changelog
-                string changes = (string)joVersionResponse["body"];
-                string currentVersionString = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                var changes = (string)joVersionResponse["body"];
+                var currentVersionString = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-                Version remoteVersion = Version.Parse(remoteVersionString);
-                Version currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
+                var remoteVersion = Version.Parse(remoteVersionString);
+                var currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
 
                 if (currentVersion.CompareTo(remoteVersion) < 0)
                 {
                     // Remote version is newer, propose update.
-                    string updateDialogContents = "New version of QBDLX-MOD is available!\r\n\r\nInstalled Version - "
-                        + currentVersionString
-                        + "\r\nLatest version - "
-                        + remoteVersionString
-                        + "\r\n\r\nChangelog Below\r\n==============\r\n"
-                        + changes.Replace("\\r\\n", "\r\n")
-                        + "\r\n==============\r\n\r\nWould you like to update?";
+                    var updateDialogContents = "New version of QBDLX-MOD is available!\r\n\r\nInstalled Version - "
+                                               + currentVersionString
+                                               + "\r\nLatest version - "
+                                               + remoteVersionString
+                                               + "\r\n\r\nChangelog Below\r\n==============\r\n"
+                                               + changes.Replace("\\r\\n", "\r\n")
+                                               + "\r\n==============\r\n\r\nWould you like to update?";
 
-                    DialogResult dialogResult = FlexibleMessageBox.Show(updateDialogContents, "QBDLX-MOD | Update Available", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                    var dialogResult = FlexibleMessageBox.Show(updateDialogContents, "QBDLX-MOD | Update Available", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                     if (dialogResult == DialogResult.Yes)
                     {
                         // If "Yes" is clicked, open GitHub page and close QBDLX-MOD.
@@ -213,7 +217,7 @@ namespace QobuzDownloaderX
                 // log the exeption details for info
                 System.IO.File.WriteAllText(versionCheckErrorLog, $"Failed to compare GitHub version, exception details below:\r\n{ex}");
 
-                DialogResult dialogResult = MessageBox.Show("Connection to GitHub to check for an update has failed.\r\nWould you like to check for an update manually?\r\n\r\nYour current version is " + Assembly.GetExecutingAssembly().GetName().Version.ToString(), "QBDLX | GitHub Connection Failed", MessageBoxButtons.YesNo);
+                var dialogResult = MessageBox.Show("Connection to GitHub to check for an update has failed.\r\nWould you like to check for an update manually?\r\n\r\nYour current version is " + Assembly.GetExecutingAssembly().GetName().Version.ToString(), "QBDLX | GitHub Connection Failed", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
                     // If "Yes" is clicked, open GitHub page and close QBDLX.
@@ -225,6 +229,7 @@ namespace QobuzDownloaderX
                     // Ignore the update until next open.
                 }
             }
+          }
         }
 
 
@@ -342,7 +347,7 @@ namespace QobuzDownloaderX
             catch (Exception ex)
             {
                 // If connection to API fails, or something is incorrect, show error info + log details.
-                List<string> errorLines = new List<string>();
+                var errorLines = new List<string>();
 
                 loginText.Invoke(new Action(() => loginText.Text = "Login Failed. Error Log saved"));
 
@@ -421,7 +426,7 @@ namespace QobuzDownloaderX
                     emailTextbox.Text = emailTextbox.Text.Trim();
                     passwordTextbox.Text = passwordTextbox.Text.Trim();
 
-                    string plainTextPW = passwordTextbox.Text;
+                    var plainTextPW = passwordTextbox.Text;
 
                     var passMD5CheckLog = Regex.Match(plainTextPW, "(?<md5Test>^[0-9a-f]{32}$)").Groups;
                     var passMD5Check = passMD5CheckLog[1].Value;
@@ -429,9 +434,9 @@ namespace QobuzDownloaderX
                     if (string.IsNullOrEmpty(passMD5Check))
                     {
                         // Generate the MD5 hash using the string created above.
-                        using (MD5 md5PassHash = MD5.Create())
+                        using (var md5PassHash = MD5.Create())
                         {
-                            string hashedPW = MD5Tools.GetMd5Hash(md5PassHash, plainTextPW);
+                            var hashedPW = MD5Tools.GetMd5Hash(md5PassHash, plainTextPW);
 
                             if (MD5Tools.VerifyMd5Hash(md5PassHash, plainTextPW, hashedPW))
                             {
@@ -448,10 +453,10 @@ namespace QobuzDownloaderX
                     }
 
                     // Save info locally to be used on next launch.
-                    Settings.Default.savedEmail = emailTextbox.Text;
-                    Settings.Default.savedPassword = passwordTextbox.Text;
-                    Settings.Default.savedAltLoginValue = AltLoginValue;
-                    Settings.Default.Save();
+                    Properties.Settings.Default.savedEmail = emailTextbox.Text;
+                    Properties.Settings.Default.savedPassword = passwordTextbox.Text;
+                    Properties.Settings.Default.savedAltLoginValue = AltLoginValue;
+                    Properties.Settings.Default.Save();
 
                     #endregion Normal Login
 
@@ -484,10 +489,10 @@ namespace QobuzDownloaderX
                     userAuthTokenTextbox.Text = userAuthTokenTextbox.Text.Trim();
 
                     // Save info locally to be used on next launch.
-                    Settings.Default.savedUserID = userIdTextbox.Text;
-                    Settings.Default.savedUserAuthToken = userAuthTokenTextbox.Text;
-                    Settings.Default.savedAltLoginValue = AltLoginValue;
-                    Settings.Default.Save();
+                    Properties.Settings.Default.savedUserID = userIdTextbox.Text;
+                    Properties.Settings.Default.savedUserAuthToken = userAuthTokenTextbox.Text;
+                    Properties.Settings.Default.savedAltLoginValue = AltLoginValue;
+                    Properties.Settings.Default.Save();
 
                     #endregion Alt Login
 
@@ -508,7 +513,7 @@ namespace QobuzDownloaderX
             }
         }
 
-        #region Textbox Focous & Text Change
+        #region Textbox Focus & Text Change
 
         #region Email Textbox
 
@@ -614,7 +619,7 @@ namespace QobuzDownloaderX
 
         #endregion user_auth_token Textbox
 
-        #endregion Textbox Focous & Text Change
+        #endregion Textbox Focus & Text Change
 
         private void PictureBox1_MouseMove(object sender, MouseEventArgs e)
         {

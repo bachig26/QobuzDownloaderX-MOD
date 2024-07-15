@@ -1,11 +1,10 @@
 ﻿using QobuzDownloaderX.Shared;
-using QobuzDownloaderX.View;
 using System;
 using System.Diagnostics;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace QobuzDownloaderX
+namespace QobuzDownloaderX.View
 {
     public partial class AboutForm : HeadlessForm
     {

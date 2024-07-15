@@ -1,9 +1,8 @@
-﻿using System.IO;
-using System;
-using System.Reflection;
+﻿using System;
+using System.IO;
 using System.Windows.Forms;
 
-namespace QobuzDownloaderX.Shared
+namespace QobuzDownloaderX.Shared.Tools
 {
     internal static class FileTools
     {
@@ -11,11 +10,11 @@ namespace QobuzDownloaderX.Shared
         {
             if (!Directory.Exists(folderPath)) return;
 
-            DateTime thresholdDate = DateTime.Now.AddDays(-maxAgeInDays);
+            var thresholdDate = DateTime.Now.AddDays(-maxAgeInDays);
 
             foreach (var file in Directory.GetFiles(folderPath))
             {
-                FileInfo fileInfo = new FileInfo(file);
+                var fileInfo = new FileInfo(file);
                 if (fileInfo.LastWriteTime < thresholdDate)
                 {
                     File.Delete(file);
@@ -25,7 +24,7 @@ namespace QobuzDownloaderX.Shared
 
         public static string GetInitializedLogDir()
         {
-            string logDirPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "logs");
+            var logDirPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "logs");
             if (!System.IO.Directory.Exists(logDirPath)) System.IO.Directory.CreateDirectory(logDirPath);
             DeleteFilesByAge(logDirPath, 1);
 
@@ -34,7 +33,7 @@ namespace QobuzDownloaderX.Shared
 
         public static string GetInitializedSettingsDir()
         {
-            string settingsDirPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "settings");
+            var settingsDirPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "settings");
             if (!System.IO.Directory.Exists(settingsDirPath)) System.IO.Directory.CreateDirectory(settingsDirPath);
 
             return settingsDirPath;
