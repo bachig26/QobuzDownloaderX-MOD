@@ -9,7 +9,16 @@ namespace QobuzDownloaderX.View
         public HeadlessForm()
         {
             InitializeComponent();
-        }
+			
+			// Get the screen that the form is currently on
+			Screen currentScreen = Screen.FromControl(this);
+			
+			// Set the form's start position to manual
+			this.StartPosition = FormStartPosition.Manual;
+			
+			// Calculate the top-right corner position
+			this.Location = new Point(currentScreen.Bounds.Width - this.Width, 0);
+		}
 
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
