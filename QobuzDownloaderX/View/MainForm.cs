@@ -48,8 +48,8 @@ namespace QobuzDownloaderX.View
         {
             // Set main form size on launch and bring to top-left corner.
             this.Height = 533;
-            // this.StartPosition = FormStartPosition.Manual;
-			// this.Location = new Point(0, 0);
+            this.StartPosition = FormStartPosition.Manual;
+			this.Location = new Point(0, 0);
 
             // Grab profile image
             var profilePic = Convert.ToString(Globals.Login.User.Avatar);
