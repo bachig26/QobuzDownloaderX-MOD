@@ -104,6 +104,11 @@ namespace QobuzDownloaderX
                 WriteTrackArtistTag = Settings.Default.artistTag,
                 WriteCommentTag = Settings.Default.commentTag,
                 CommentTag = Settings.Default.commentText,
+                WriteSourceTag = Settings.Default.sourceTag,
+                WriteSourceUrlTag = Settings.Default.sourceUrlTag,
+                WriteDownloadDateTag = Settings.Default.downloadDateTag,
+                WriteDownloadToolTag = Settings.Default.downloadToolTag,
+                DownloadToolTag = Settings.Default.downloadToolText,
                 WriteComposerTag = Settings.Default.composerTag,
                 WriteProducerTag = Settings.Default.producerTag,
                 WriteLabelTag = Settings.Default.labelTag,
@@ -135,6 +140,11 @@ namespace QobuzDownloaderX
             artistCheckbox.Checked = Settings.Default.artistTag;
             commentCheckbox.Checked = Settings.Default.commentTag;
             commentTextbox.Text = Settings.Default.commentText;
+            sourceCheckbox.Checked = Settings.Default.sourceTag;
+            sourceUrlCheckbox.Checked = Settings.Default.sourceUrlTag;
+            downloadDateCheckbox.Checked = Settings.Default.downloadDateTag;
+            downloadToolCheckbox.Checked = Settings.Default.downloadToolTag;
+            downloadToolTextbox.Text = Settings.Default.downloadToolText;
             composerCheckbox.Checked = Settings.Default.composerTag;
             producerCheckbox.Checked = Settings.Default.producerTag;
             labelCheckbox.Checked = Settings.Default.labelTag;
@@ -225,6 +235,10 @@ namespace QobuzDownloaderX
 
         private async void DownloadButton_Click(object sender, EventArgs e)
         {
+            Settings.Default.commentText = commentTextbox.Text;
+            Settings.Default.Save();
+            Globals.TaggingOptions.CommentTag = commentTextbox.Text;
+            Globals.TaggingOptions.DownloadToolTag = downloadToolTextbox.Text;
             if (!downloadManager.Buzy)
             {
                 await StartLinkItemDownloadAsync(downloadUrl.Text);
@@ -373,13 +387,13 @@ namespace QobuzDownloaderX
 
         private void tagsLabel_Click(object sender, EventArgs e)
         {
-            if (this.Height == 533)
+            if (this.Height == 533) //Currently closed
             {
                 //New Height
-                this.Height = 660;
+                this.Height = 694;
                 tagsLabel.Text = "🠉 Choose which tags to save (click me) 🠉";
             }
-            else if (this.Height == 660)
+            else if (this.Height == 694) //Currently opened
             {
                 //New Height
                 this.Height = 533;
@@ -513,6 +527,34 @@ namespace QobuzDownloaderX
             Globals.TaggingOptions.WriteCommentTag = commentCheckbox.Checked;
         }
 
+        private void SourceCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Default.sourceTag = sourceCheckbox.Checked;
+            Settings.Default.Save();
+            Globals.TaggingOptions.WriteSourceTag = sourceCheckbox.Checked;
+        }
+
+        private void SourceUrlCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Default.sourceUrlTag = sourceUrlCheckbox.Checked;
+            Settings.Default.Save();
+            Globals.TaggingOptions.WriteSourceUrlTag = sourceUrlCheckbox.Checked;
+        }
+
+        private void DownloadDateCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Default.downloadDateTag = downloadDateCheckbox.Checked;
+            Settings.Default.Save();
+            Globals.TaggingOptions.WriteDownloadDateTag = downloadDateCheckbox.Checked;
+        }
+
+        private void DownloadToolCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Default.downloadToolTag = downloadToolCheckbox.Checked;
+            Settings.Default.Save();
+            Globals.TaggingOptions.WriteDownloadToolTag = downloadToolCheckbox.Checked;
+        }
+
         private void ImageCheckbox_CheckedChanged(object sender, EventArgs e)
         {
             Settings.Default.imageTag = imageCheckbox.Checked;
@@ -525,6 +567,13 @@ namespace QobuzDownloaderX
             Settings.Default.commentText = commentTextbox.Text;
             Settings.Default.Save();
             Globals.TaggingOptions.CommentTag = commentTextbox.Text;
+        }
+
+        private void DownloadToolTextbox_TextChanged(object sender, EventArgs e)
+        {
+            Settings.Default.downloadToolText = downloadToolTextbox.Text;
+            Settings.Default.Save();
+            Globals.TaggingOptions.DownloadToolTag = downloadToolTextbox.Text;
         }
 
         private void ArtSizeSelect_SelectedIndexChanged(object sender, EventArgs e)
@@ -904,6 +953,11 @@ namespace QobuzDownloaderX
         private void StreamableCheckbox_CheckedChanged(object sender, EventArgs e)
         {
             downloadManager.CheckIfStreamable = streamableCheckbox.Checked;
+        }
+
+        private void DownloadUrl_TextChanged(object sender, EventArgs e)
+        {
+            Globals.TaggingOptions.SourceUrlTag = downloadUrl.Text;
         }
     }
 }
