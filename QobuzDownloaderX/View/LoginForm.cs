@@ -56,9 +56,8 @@ namespace QobuzDownloaderX.View
                 Application.Exit();
             }
 
-            // Bring to top-left corner of screen.
-			this.StartPosition = FormStartPosition.Manual;
-			this.Location = new Point(0, 0);
+            // Bring to center of screen.
+            CenterToScreen();
 
             /* 
              * Only needed when using the default .NET SettingsProvider, not applicable when using PortableJsonSettingsProvider
