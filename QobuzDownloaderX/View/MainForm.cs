@@ -68,7 +68,7 @@ namespace QobuzDownloaderX
                 output.Invoke(new Action(() => output.AppendText(Globals.Login.User.Subscription.StartDate != null ? ((DateTimeOffset)Globals.Login.User.Subscription.StartDate).ToString("dd-MM-yyyy") : "?")));
                 output.Invoke(new Action(() => output.AppendText("\r\n")));
                 output.Invoke(new Action(() => output.AppendText("End Date - ")));
-                output.Invoke(new Action(() => output.AppendText(Globals.Login.User.Subscription.StartDate != null ? ((DateTimeOffset)Globals.Login.User.Subscription.EndDate).ToString("dd-MM-yyyy") : "?")));
+                output.Invoke(new Action(() => output.AppendText(Globals.Login.User.Subscription.EndDate != null ? ((DateTimeOffset)Globals.Login.User.Subscription.EndDate).ToString("dd-MM-yyyy") : "?")));
                 output.Invoke(new Action(() => output.AppendText("\r\n")));
                 output.Invoke(new Action(() => output.AppendText("Periodicity - " + Globals.Login.User.Subscription.Periodicity + "\r\n")));
                 output.Invoke(new Action(() => output.AppendText("==========================\r\n\r\n")));
@@ -172,7 +172,7 @@ namespace QobuzDownloaderX
             ListEndSeparatorTextbox.Text = Settings.Default.listEndSeparator;
 
             // Check if there's no selected path saved.
-            if (folderBrowserDialog.SelectedPath == null || folderBrowserDialog.SelectedPath == "")
+            if (string.IsNullOrEmpty(folderBrowserDialog.SelectedPath))
             {
                 // If there is NOT a saved path.
                 output.Invoke(new Action(() => output.AppendText("\r\n\r\n")));
@@ -225,7 +225,7 @@ namespace QobuzDownloaderX
 
         private async void DownloadButton_Click(object sender, EventArgs e)
         {
-            if (!downloadManager.Buzy)
+            if (!downloadManager.IsBuzy)
             {
                 await StartLinkItemDownloadAsync(downloadUrl.Text);
             } else
@@ -268,7 +268,7 @@ namespace QobuzDownloaderX
             }
 
             // If, for some reason, a download is still buzy, do nothing
-            if (downloadManager.Buzy)
+            if (downloadManager.IsBuzy)
             {
                 return;
             }

@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("DJDoubleD")]
 [assembly: AssemblyProduct("QobuzDownloaderX")]
-[assembly: AssemblyCopyright("Copyright © 2023")]
+[assembly: AssemblyCopyright("Copyright © 2024")]
 [assembly: AssemblyTrademark("DJDoubleD")]
 [assembly: AssemblyCulture("")]
 
