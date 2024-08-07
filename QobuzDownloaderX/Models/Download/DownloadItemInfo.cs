@@ -11,7 +11,7 @@ namespace QobuzDownloaderX.Models.Download
         public string DisplayQuality { get; set; }
 
         // Important strings
-        public string DowloadItemID { get; set; }
+        public string DownloadItemID { get; set; }
 
         public string Stream { get; set; }
 
@@ -103,7 +103,7 @@ namespace QobuzDownloaderX.Models.Download
             Copyright = null;
             Isrc = null;
 
-            // Clear tag numberes
+            // Clear tag numbers
             TrackNumber = 0;
             DiscNumber = 0;
             Duration = 0;

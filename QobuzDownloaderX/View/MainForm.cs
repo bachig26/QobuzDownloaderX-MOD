@@ -70,7 +70,7 @@ namespace QobuzDownloaderX.View
                 output.Invoke(new Action(() => output.AppendText(Globals.Login.User.Subscription.StartDate != null ? ((DateTimeOffset)Globals.Login.User.Subscription.StartDate).ToString("dd-MM-yyyy") : "?")));
                 output.Invoke(new Action(() => output.AppendText("\r\n")));
                 output.Invoke(new Action(() => output.AppendText("End Date - ")));
-                output.Invoke(new Action(() => output.AppendText(Globals.Login.User.Subscription.StartDate != null ? ((DateTimeOffset)Globals.Login.User.Subscription.EndDate).ToString("dd-MM-yyyy") : "?")));
+                output.Invoke(new Action(() => output.AppendText(Globals.Login.User.Subscription.EndDate != null ? ((DateTimeOffset)Globals.Login.User.Subscription.EndDate).ToString("dd-MM-yyyy") : "?")));
                 output.Invoke(new Action(() => output.AppendText("\r\n")));
                 output.Invoke(new Action(() => output.AppendText("Periodicity - " + Globals.Login.User.Subscription.Periodicity + "\r\n")));
                 output.Invoke(new Action(() => output.AppendText("==========================\r\n\r\n")));
@@ -265,13 +265,13 @@ namespace QobuzDownloaderX.View
             {
                 logger.ClearUiLogComponent();
                 output.Invoke(new Action(() => output.AppendText("URL not understood. Is there a typo?")));
-                return;
+                continue;
             }
 
             // If, for some reason, a download is still busy, do nothing
             if (DownloadManager.IsBusy)
             {
-                return;
+                continue;
             }
 
             // Run the StartDownloadItemTaskAsync method on a background thread & Wait for the task to complete

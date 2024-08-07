@@ -5,7 +5,7 @@ namespace QobuzDownloaderX.Shared.Tools
 {
     public static class QualityStringMappings
     {
-        private static readonly Dictionary<string, (string, string)> qualityMappings = new Dictionary<string, (string, string)>()
+        private static readonly Dictionary<string, (string, string)> QualityMappings = new Dictionary<string, (string, string)>()
         {
             {"5", ("MP3 320kbps CBR", "MP3")},
             {"6", ("FLAC (16bit/44.1kHz)", "FLAC (16bit-44.1kHz)")},
@@ -13,7 +13,7 @@ namespace QobuzDownloaderX.Shared.Tools
             {"27", ("FLAC (24bit/192kHz)", "FLAC (24bit-196kHz)")}
         };
 
-        private static readonly Dictionary<string, (double, double)> maximumBitDepthAndSampleRateMappings = new Dictionary<string, (double, double)>()
+        private static readonly Dictionary<string, (double, double)> MaximumBitDepthAndSampleRateMappings = new Dictionary<string, (double, double)>()
         {
             {"5", (0, 0)}, // N/A, using 0 for easy calculation check.
             {"6", (16, 44.1)},
@@ -22,7 +22,7 @@ namespace QobuzDownloaderX.Shared.Tools
         };
         public static double GetMaxBitDepth(string formatIdString)
         {
-            if (maximumBitDepthAndSampleRateMappings.TryGetValue(formatIdString, out var value))
+            if (MaximumBitDepthAndSampleRateMappings.TryGetValue(formatIdString, out var value))
                 return value.Item1;
             else
                 throw new KeyNotFoundException($"QualityFormatID '{formatIdString}' not found.");
@@ -30,7 +30,7 @@ namespace QobuzDownloaderX.Shared.Tools
 
         public static double GetMaxSampleRate(string formatIdString)
         {
-            if (maximumBitDepthAndSampleRateMappings.TryGetValue(formatIdString, out var value))
+            if (MaximumBitDepthAndSampleRateMappings.TryGetValue(formatIdString, out var value))
                 return value.Item2;
             else
                 throw new KeyNotFoundException($"QualityFormatID '{formatIdString}' not found.");
@@ -38,7 +38,7 @@ namespace QobuzDownloaderX.Shared.Tools
 
         public static (string displayQuality, string pathSafeQuality) GetQualityStrings(string formatIdString)
         {
-            if (qualityMappings.TryGetValue(formatIdString, out var value))
+            if (QualityMappings.TryGetValue(formatIdString, out var value))
                 return value;
             else
                 throw new KeyNotFoundException($"QualityFormatID '{formatIdString}' not found.");

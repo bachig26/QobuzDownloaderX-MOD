@@ -12,7 +12,7 @@ namespace QobuzDownloaderX.Shared.Tools
             // Convert the input string to a byte array and compute the hash.
             var data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
 
-            // Create a new Stringbuilder to collect the bytes and create a string.
+            // Create a new StringBuilder to collect the bytes and create a string.
             var sBuilder = new StringBuilder();
 
             // Loop through each byte of the hashed data and format each one as a hexadecimal string.
@@ -31,7 +31,7 @@ namespace QobuzDownloaderX.Shared.Tools
             // Hash the input.
             var hashOfInput = GetMd5Hash(md5Hash, input);
 
-            // Create a StringComparer an compare the hashes.
+            // Create a StringComparer and compare the hashes.
             var comparer = StringComparer.OrdinalIgnoreCase;
 
             return comparer.Compare(hashOfInput, hash) == 0;
