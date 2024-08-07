@@ -265,13 +265,13 @@ namespace QobuzDownloaderX.View
             {
                 logger.ClearUiLogComponent();
                 output.Invoke(new Action(() => output.AppendText("URL not understood. Is there a typo?")));
-                continue;
+                return;
             }
 
             // If, for some reason, a download is still busy, do nothing
             if (DownloadManager.IsBusy)
             {
-                continue;
+                return;
             }
 
             // Run the StartDownloadItemTaskAsync method on a background thread & Wait for the task to complete
