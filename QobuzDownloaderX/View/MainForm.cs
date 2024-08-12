@@ -14,20 +14,22 @@ namespace QobuzDownloaderX.View
 {
     public partial class QobuzDownloaderX : HeadlessForm
     {
-        private readonly DownloadLogger logger;
+        private readonly DownloadLogger _logger;
 
         public readonly DownloadManager DownloadManager;
         public readonly Queue<string> DownloadQueue = new Queue<string>();
+
+        private bool _isUserSubscribed;
 
         public QobuzDownloaderX()
         {
             InitializeComponent();
 
-            logger = new DownloadLogger(output, UpdateControlsDownloadEnd);
+            _logger = new DownloadLogger(output, UpdateControlsDownloadEnd);
             // Remove previous download error log
-            logger.RemovePreviousErrorLog();
+            _logger.RemovePreviousErrorLog();
 
-            DownloadManager = new DownloadManager(logger, UpdateAlbumTagsUI, UpdateDownloadSpeedLabel)
+            DownloadManager = new DownloadManager(_logger, UpdateAlbumTagsUI, UpdateDownloadSpeedLabel)
             {
                 CheckIfStreamable = streamableCheckbox.Checked
             };
@@ -39,16 +41,16 @@ namespace QobuzDownloaderX.View
         public int DebugMode { get; set; }
 
         // Button color download inactive
-        private readonly Color ReadyButtonBackColor = Color.FromArgb(0, 112, 239); // Windows Blue (Azure Blue)
+        private readonly Color _readyButtonBackColor = Color.FromArgb(0, 112, 239); // Windows Blue (Azure Blue)
 
         // Button color download active
-        private readonly Color busyButtonBackColor = Color.FromArgb(200, 30, 0); // Red
+        private readonly Color _busyButtonBackColor = Color.FromArgb(200, 30, 0); // Red
 
         private void MainForm_Load(object sender, EventArgs e)
         {
             // Set main form size on launch and bring to center.
-            this.Height = 533;
-            this.CenterToScreen();
+            Height = 533;
+            CenterToScreen();
 
             // Grab profile image
             var profilePic = Convert.ToString(Globals.Login.User.Avatar);
@@ -74,20 +76,32 @@ namespace QobuzDownloaderX.View
                 output.Invoke(new Action(() => output.AppendText("\r\n")));
                 output.Invoke(new Action(() => output.AppendText("Periodicity - " + Globals.Login.User.Subscription.Periodicity + "\r\n")));
                 output.Invoke(new Action(() => output.AppendText("==========================\r\n\r\n")));
+
+                _isUserSubscribed = Globals.Login.User.Subscription.EndDate != null &&
+                                    Globals.Login.User.Subscription.EndDate.Value > DateTimeOffset.Now;
             }
             else if (Globals.Login.User.Credential.Parameters.Source == "household" && Globals.Login.User.Credential.Parameters.HiresStreaming == true)
             {
                 output.Invoke(new Action(() => output.AppendText("Active Family sub-account, unknown End Date \r\n")));
                 output.Invoke(new Action(() => output.AppendText("Credential Label - " + Globals.Login.User.Credential.Label + "\r\n")));
                 output.Invoke(new Action(() => output.AppendText("==========================\r\n\r\n")));
+				
+				_isUserSubscribed = true;
             }
             else
             {
                 output.Invoke(new Action(() => output.AppendText("No active subscriptions, only sample downloads possible!\r\n")));
                 output.Invoke(new Action(() => output.AppendText("==========================\r\n\r\n")));
+				
+				_isUserSubscribed = false;
             }
 
             output.Invoke(new Action(() => output.AppendText("Your user_auth_token has been set for this session!")));
+
+			// Visual cue to see if user has an active subscription
+            logoutLabel.ForeColor = _isUserSubscribed
+                ? Color.Green
+                : Color.Red;
 
             // Get and display version number.
             verNumLabel.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
@@ -192,7 +206,7 @@ namespace QobuzDownloaderX.View
             }
 
             // Run anything put into the debug events (For Testing)
-            debuggingEvents(sender, e);
+            DebuggingEvents(sender, e);
 
             UpdateQueueLabel();
         }
@@ -202,7 +216,7 @@ namespace QobuzDownloaderX.View
             downloadSpeedLabel.Invoke(new Action(() => downloadSpeedLabel.Text = speed));
         }
 
-        private void debuggingEvents(object sender, EventArgs e)
+        private void DebuggingEvents(object sender, EventArgs e)
         {
             DevClickEggThingValue = 0;
 
@@ -252,7 +266,7 @@ namespace QobuzDownloaderX.View
             if (string.IsNullOrEmpty(Properties.Settings.Default.savedFolder))
             {
                 // If there is NOT a saved path.
-                logger.ClearUiLogComponent();
+                _logger.ClearUiLogComponent();
                 output.Invoke(new Action(() => output.AppendText($"No path has been set! Remember to Choose a Folder!{Environment.NewLine}")));
                 return;
             }
@@ -263,7 +277,7 @@ namespace QobuzDownloaderX.View
             // If download item could not be parsed, abort
             if (downloadItem.IsEmpty())
             {
-                logger.ClearUiLogComponent();
+                _logger.ClearUiLogComponent();
                 output.Invoke(new Action(() => output.AppendText("URL not understood. Is there a typo?")));
                 return;
             }
@@ -309,7 +323,7 @@ namespace QobuzDownloaderX.View
             downloadButton.Invoke(new Action(() =>
             {
                 downloadButton.Text = "Stop Download";
-                downloadButton.BackColor = busyButtonBackColor;
+                downloadButton.BackColor = _busyButtonBackColor;
             }));
         }
 
@@ -328,7 +342,7 @@ namespace QobuzDownloaderX.View
             downloadButton.Invoke(new Action(() =>
             {
                 downloadButton.Text = "Download";
-                downloadButton.BackColor = ReadyButtonBackColor;
+                downloadButton.BackColor = _readyButtonBackColor;
             }));
         }
 
@@ -392,16 +406,16 @@ namespace QobuzDownloaderX.View
 
         private void tagsLabel_Click(object sender, EventArgs e)
         {
-            if (this.Height == 533)
+            if (Height == 533)
             {
                 //New Height
-                this.Height = 660;
+                Height = 660;
                 tagsLabel.Text = "🠉 Choose which tags to save (click me) 🠉";
             }
-            else if (this.Height == 660)
+            else if (Height == 660)
             {
                 //New Height
-                this.Height = 533;
+                Height = 533;
                 tagsLabel.Text = "🠋 Choose which tags to save (click me) 🠋";
             }
         }
@@ -792,7 +806,7 @@ namespace QobuzDownloaderX.View
 
         private void minimizeLabel_Click(object sender, EventArgs e)
         {
-            this.WindowState = FormWindowState.Minimized;
+            WindowState = FormWindowState.Minimized;
         }
 
         private void minimizeLabel_MouseHover(object sender, EventArgs e)
@@ -910,7 +924,9 @@ namespace QobuzDownloaderX.View
 
         private void logoutLabel_MouseLeave(object sender, EventArgs e)
         {
-            logoutLabel.ForeColor = Color.FromArgb(88, 92, 102);
+            logoutLabel.ForeColor = _isUserSubscribed
+                ? Color.Green
+                : Color.Red;
         }
 
         private void logoutLabel_Click(object sender, EventArgs e)

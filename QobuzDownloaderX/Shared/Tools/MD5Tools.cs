@@ -16,9 +16,9 @@ namespace QobuzDownloaderX.Shared.Tools
             var sBuilder = new StringBuilder();
 
             // Loop through each byte of the hashed data and format each one as a hexadecimal string.
-            for (var i = 0; i < data.Length; i++)
+            foreach (var b in data)
             {
-                sBuilder.Append(data[i].ToString("x2"));
+                sBuilder.Append(b.ToString("x2"));
             }
 
             // Return the hexadecimal string.

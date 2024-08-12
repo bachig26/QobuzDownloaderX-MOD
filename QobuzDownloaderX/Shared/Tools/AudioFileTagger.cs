@@ -39,7 +39,7 @@ namespace QobuzDownloaderX.Shared.Tools
                             };
 
                             // Save cover art to MP3 file.
-                            tagLibFile.Tag.Pictures = new IPicture[1] { pic };
+                            tagLibFile.Tag.Pictures = new IPicture[] { pic };
                             tagLibFile.Save();
                         }
                         catch
@@ -157,7 +157,7 @@ namespace QobuzDownloaderX.Shared.Tools
                             };
 
                             // Save cover art to FLAC file.
-                            tagLibFile.Tag.Pictures = new IPicture[1] { pic };
+                            tagLibFile.Tag.Pictures = new IPicture[] { pic };
                             tagLibFile.Save();
                         }
                         catch

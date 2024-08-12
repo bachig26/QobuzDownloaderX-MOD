@@ -16,17 +16,17 @@ namespace QobuzDownloaderX.View
 {
     public partial class SearchForm : HeadlessForm
     {
-        private readonly string errorLog = Path.Combine(Globals.LoggingDir, "Search_Errors.log");
-        TableLayoutPanel resultsTableLayoutPanel;
+        private readonly string _errorLog = Path.Combine(Globals.LoggingDir, "Search_Errors.log");
+        private TableLayoutPanel _resultsTableLayoutPanel;
 
         public SearchForm()
         {
             InitializeComponent();
 
             // Remove previous search error log
-            if (File.Exists(errorLog))
+            if (File.Exists(_errorLog))
             {
-                File.Delete(errorLog);
+                File.Delete(_errorLog);
             }
 
             ControlTools.SetDoubleBuffered(containerScrollPanel);
@@ -36,14 +36,14 @@ namespace QobuzDownloaderX.View
 
         private void ResetResultsTableLayoutPanel()
         {
-            if (resultsTableLayoutPanel != null)
+            if (_resultsTableLayoutPanel != null)
             {
                 containerScrollPanel.Controls.Clear();
-                ControlTools.RemoveControls(resultsTableLayoutPanel);
-                resultsTableLayoutPanel.Dispose();
+                ControlTools.RemoveControls(_resultsTableLayoutPanel);
+                _resultsTableLayoutPanel.Dispose();
             }
 
-            resultsTableLayoutPanel = new TableLayoutPanel
+            _resultsTableLayoutPanel = new TableLayoutPanel
             {
                 Name = "resultsTableLayoutPanel",
                 AutoSize = true,
@@ -53,31 +53,31 @@ namespace QobuzDownloaderX.View
                 Size = new Size(894, 70),
                 TabIndex = 4
             };
-            ControlTools.SetDoubleBuffered(resultsTableLayoutPanel);
-            resultsTableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 80F));
-            resultsTableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 613F));
-            resultsTableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
-            resultsTableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 101F));
-            resultsTableLayoutPanel.CellPaint += ResultsTableLayoutPanel_CellPaint;
+            ControlTools.SetDoubleBuffered(_resultsTableLayoutPanel);
+            _resultsTableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 80F));
+            _resultsTableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 613F));
+            _resultsTableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
+            _resultsTableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 101F));
+            _resultsTableLayoutPanel.CellPaint += ResultsTableLayoutPanel_CellPaint;
 
-            containerScrollPanel.Controls.Add(resultsTableLayoutPanel);
+            containerScrollPanel.Controls.Add(_resultsTableLayoutPanel);
         }
 
         private void ShowAndLogSearchResultError(Exception ex)
         {
             ResetResultsTableLayoutPanel();
 
-            resultsTableLayoutPanel.RowCount++;
-            resultsTableLayoutPanel.ColumnStyles.Clear();
-            resultsTableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 914F));
-            resultsTableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            _resultsTableLayoutPanel.RowCount++;
+            _resultsTableLayoutPanel.ColumnStyles.Clear();
+            _resultsTableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 914F));
+            _resultsTableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             var errorMessage = CreateTextBox($"{ex.Message}", true, GetResultRowColor(0), Color.OrangeRed, FontManager.CreateFont("Hanken Grotesk Medium", 10, FontStyle.Bold | FontStyle.Italic), BorderStyle.None);
             ResizeControlForText(errorMessage, 5);
-            resultsTableLayoutPanel.Controls.Add(errorMessage, 0, 0);
+            _resultsTableLayoutPanel.Controls.Add(errorMessage, 0, 0);
 
-            var errorSavedMessage = CreateTextBox($"Error log saved to {errorLog}.", true, GetResultRowColor(0), Color.OrangeRed, FontManager.CreateFont("Hanken Grotesk Medium", 10, FontStyle.Bold | FontStyle.Italic), BorderStyle.None);
+            var errorSavedMessage = CreateTextBox($"Error log saved to {_errorLog}.", true, GetResultRowColor(0), Color.OrangeRed, FontManager.CreateFont("Hanken Grotesk Medium", 10, FontStyle.Bold | FontStyle.Italic), BorderStyle.None);
             ResizeControlForText(errorSavedMessage, 5);
-            resultsTableLayoutPanel.Controls.Add(errorSavedMessage, 0, 1);
+            _resultsTableLayoutPanel.Controls.Add(errorSavedMessage, 0, 1);
 
             var errorLines = new List<string> { ex.Message };
 
@@ -99,7 +99,7 @@ namespace QobuzDownloaderX.View
             errorLines.Add(ex.ToString());
 
             // Write detailed info to log
-            File.AppendAllLines(errorLog, errorLines);
+            File.AppendAllLines(_errorLog, errorLines);
         }
 
         private void ExitLabel_Click(object sender, EventArgs e)
@@ -167,23 +167,23 @@ namespace QobuzDownloaderX.View
 
         public void CreateResultRow(SearchResultRow result)
         {
-            resultsTableLayoutPanel.RowCount++;
-            resultsTableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 70));
-            var currentRow = resultsTableLayoutPanel.RowCount - 1;
+            _resultsTableLayoutPanel.RowCount++;
+            _resultsTableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 70));
+            var currentRow = _resultsTableLayoutPanel.RowCount - 1;
 
             var rowColor = GetResultRowColor(currentRow);
 
             var thumbnail = CreateThumbnail(result.ThumbnailUrl, rowColor);
-            resultsTableLayoutPanel.Controls.Add(thumbnail, 0, currentRow);
+            _resultsTableLayoutPanel.Controls.Add(thumbnail, 0, currentRow);
 
             var secondColumnPanel = CreateReleaseInfoColumn(result, rowColor);
-            resultsTableLayoutPanel.Controls.Add(secondColumnPanel, 1, currentRow);
+            _resultsTableLayoutPanel.Controls.Add(secondColumnPanel, 1, currentRow);
 
             var thirdColumnPanel = CreateQualityColumn(result, rowColor);
-            resultsTableLayoutPanel.Controls.Add(thirdColumnPanel, 2, currentRow);
+            _resultsTableLayoutPanel.Controls.Add(thirdColumnPanel, 2, currentRow);
 
             var selectButton = CreateDownloadButton(result.WebPlayerUrl);
-            resultsTableLayoutPanel.Controls.Add(selectButton, 3, currentRow);
+            _resultsTableLayoutPanel.Controls.Add(selectButton, 3, currentRow);
         }
 
         private Color GetResultRowColor(int currentRow)
@@ -265,7 +265,7 @@ namespace QobuzDownloaderX.View
                 return titlePanel;
             }
 
-            var explicitLabel = CreateLabel("E", Color.FromArgb(75, 75, 75), Color.OrangeRed, FontManager.CreateFont("Hanken Grotesk ExtraBold", 8, FontStyle.Bold), BorderStyle.None, new Padding(5, 0, 0, 0), AnchorStyles.None);
+            var explicitLabel = CreateLabel("E", Color.FromArgb(75, 75, 75), Color.OrangeRed, FontManager.CreateFont("Hanken Grotesk ExtraBold", 8, FontStyle.Bold), BorderStyle.None, new Padding(5, 0, 0, 0));
 
             // Add tooltip for "Explicit"
             var toolTip = new ToolTip();
@@ -428,10 +428,10 @@ namespace QobuzDownloaderX.View
                 };
 
                 // Write detailed info to log
-                File.AppendAllLines(errorLog, errorLines);
+                File.AppendAllLines(_errorLog, errorLines);
 
                 // Show an error message to the user
-                MessageBox.Show($"Error starting download for {webPlayerUrl}\nlog saved to {errorLog}.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error starting download for {webPlayerUrl}\nlog saved to {_errorLog}.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

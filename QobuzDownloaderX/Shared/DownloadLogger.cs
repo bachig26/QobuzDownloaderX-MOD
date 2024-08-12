@@ -8,9 +8,10 @@ namespace QobuzDownloaderX.Shared
 {
     public class DownloadLogger
     {
-        public readonly string downloadErrorLogPath = Path.Combine(Globals.LoggingDir, "Download_Errors.log");
         public delegate void DownloadEnded();
-        private readonly DownloadEnded updateUiOnDownloadEnd;
+        private readonly string _downloadErrorLogPath = Path.Combine(Globals.LoggingDir, $"Download_Errors_{DateTime.Now:yyyy-mm-dd.HHmmss}.log");
+
+        private readonly DownloadEnded _updateUiOnDownloadEnd;
         private TextBox ScreenOutputTextBox { get; }
 
         public string DownloadLogPath { get; set; }
@@ -18,15 +19,15 @@ namespace QobuzDownloaderX.Shared
         public DownloadLogger(TextBox outputTextBox, DownloadEnded updateUiOnDownloadEnd)
         {
             ScreenOutputTextBox = outputTextBox;
-            this.updateUiOnDownloadEnd = updateUiOnDownloadEnd;
+            _updateUiOnDownloadEnd = updateUiOnDownloadEnd;
         }
 
         public void RemovePreviousErrorLog()
         {
             // Remove previous download error log
-            if (File.Exists(downloadErrorLogPath))
+            if (File.Exists(_downloadErrorLogPath))
             {
-                File.Delete(downloadErrorLogPath);
+                File.Delete(_downloadErrorLogPath);
             }
         }
 
@@ -56,8 +57,11 @@ namespace QobuzDownloaderX.Shared
                 return;
             }
 
-            var logEntries = logEntry.Split(new[] { Environment.NewLine }, StringSplitOptions.None)
-                .Select(logLine => string.IsNullOrWhiteSpace(logLine) ? logLine : $"{DateTime.Now:yyyy-MM-dd HH:mm:ss.fff} : {logLine}");
+            var logEntries = logEntry
+                .Split(new[] { Environment.NewLine }, StringSplitOptions.None)
+                .Select(logLine => string.IsNullOrWhiteSpace(logLine)
+                    ? logLine
+                    : $"{DateTime.Now:yyyy-MM-dd HH:mm:ss.fff} : {logLine}");
 
             // Filter out all empty lines exept if the logEntry started with an empty line to avoid blank lines for each newline in UI
             var filteredLogEntries = logEntries.Aggregate(new List<string>(), (accumulator, current) =>
@@ -101,12 +105,12 @@ namespace QobuzDownloaderX.Shared
                 return;
             }
 
-            File.AppendAllLines(downloadErrorLogPath, logEntries);
+            File.AppendAllLines(_downloadErrorLogPath, logEntries);
         }
 
         public void AddDownloadErrorLogLine(string logEntry)
         {
-            AddDownloadErrorLogLines(new string[] { logEntry });
+            AddDownloadErrorLogLines(new[] { logEntry });
         }
 
         /// <summary>
@@ -124,7 +128,7 @@ namespace QobuzDownloaderX.Shared
             AddDownloadErrorLogLine($"{downloadTaskType} Download Task ERROR.");
             AddDownloadErrorLogLine(downloadEx.ToString());
             AddDownloadErrorLogLine(Environment.NewLine);
-            updateUiOnDownloadEnd?.Invoke();
+            _updateUiOnDownloadEnd?.Invoke();
         }
 
         public void LogFinishedDownloadJob(bool noErrorsOccurred)
@@ -135,9 +139,11 @@ namespace QobuzDownloaderX.Shared
             AddDownloadLogLine(
                 noErrorsOccurred
                     ? "Download job completed! All downloaded files will be located in your chosen path."
-                    : "Download job completed with warnings and/or errors! Some or all files could be missing!", true, true);
+                    : "Download job completed with warnings and/or errors! Some or all files could be missing!",
+                true,
+                true);
 
-            updateUiOnDownloadEnd?.Invoke();
+            _updateUiOnDownloadEnd?.Invoke();
         }
 
         public void ClearUiLogComponent()

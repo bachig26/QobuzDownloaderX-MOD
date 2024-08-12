@@ -8,7 +8,10 @@ namespace QobuzDownloaderX.Shared.Tools
     {
         public static void DeleteFilesByAge(string folderPath, int maxAgeInDays)
         {
-            if (!Directory.Exists(folderPath)) return;
+            if (!Directory.Exists(folderPath))
+            {
+                return;
+            }
 
             var thresholdDate = DateTime.Now.AddDays(-maxAgeInDays);
 
@@ -25,7 +28,11 @@ namespace QobuzDownloaderX.Shared.Tools
         public static string GetInitializedLogDir()
         {
             var logDirPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "logs");
-            if (!System.IO.Directory.Exists(logDirPath)) System.IO.Directory.CreateDirectory(logDirPath);
+            if (!Directory.Exists(logDirPath))
+            {
+                Directory.CreateDirectory(logDirPath);
+            }
+			
             DeleteFilesByAge(logDirPath, 1);
 
             return logDirPath;
@@ -34,7 +41,10 @@ namespace QobuzDownloaderX.Shared.Tools
         public static string GetInitializedSettingsDir()
         {
             var settingsDirPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "settings");
-            if (!System.IO.Directory.Exists(settingsDirPath)) System.IO.Directory.CreateDirectory(settingsDirPath);
+            if (!Directory.Exists(settingsDirPath))
+            {
+                Directory.CreateDirectory(settingsDirPath);
+            }
 
             return settingsDirPath;
         }

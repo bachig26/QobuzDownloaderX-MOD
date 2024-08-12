@@ -32,14 +32,20 @@ namespace QobuzDownloaderX.Shared.Tools
 
                 if (matches.Success)
                 {
-                    if (!LinkTypes.Contains(matches.Result("${Type}"))) continue;
+                    if (!LinkTypes.Contains(matches.Result("${Type}")))
+                    {
+                        continue;
+                    }
 
                     // Valid Type found, set DownloadItem values
                     downloadItem.Type = matches.Result("${Type}");
-                    downloadItem.Id = matches.Result("${id}")?.TrimEnd('/');
+                    downloadItem.Id = matches.Result("${id}").TrimEnd('/');
 
                     // In store links, "interpreter" = "artist"
-                    if (downloadItem.Type == "interpreter") downloadItem.Type = "artist";
+                    if (downloadItem.Type == "interpreter")
+                    {
+                        downloadItem.Type = "artist";
+                    }
 
                     break;
                 }

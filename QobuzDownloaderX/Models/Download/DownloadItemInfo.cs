@@ -82,7 +82,7 @@ namespace QobuzDownloaderX.Models.Download
             TrackTotal = 0;
             DiscTotal = 0;
 
-            // Clear tagbased Paths
+            // Clear tag-based Paths
             CurrentDownloadPaths.AlbumArtistPath = null;
             CurrentDownloadPaths.AlbumNamePath = null;
         }
@@ -108,7 +108,7 @@ namespace QobuzDownloaderX.Models.Download
             DiscNumber = 0;
             Duration = 0;
 
-            // Clear tagbased Paths
+            // Clear tag-based Paths
             CurrentDownloadPaths.TrackNamePath = null;
         }
 
@@ -166,7 +166,7 @@ namespace QobuzDownloaderX.Models.Download
             DiscTotal = qobuzAlbum.MediaCount.GetValueOrDefault();
         }
 
-        // Set Album tagbased Paths
+        // Set Album tag-based Paths
         private void SetAlbumPaths(Album qobuzAlbum)
         {
             // Grab sample rate and bit depth for album.

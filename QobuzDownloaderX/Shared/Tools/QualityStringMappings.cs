@@ -31,17 +31,21 @@ namespace QobuzDownloaderX.Shared.Tools
         public static double GetMaxSampleRate(string formatIdString)
         {
             if (MaximumBitDepthAndSampleRateMappings.TryGetValue(formatIdString, out var value))
+            {
                 return value.Item2;
-            else
-                throw new KeyNotFoundException($"QualityFormatID '{formatIdString}' not found.");
+            }
+
+            throw new KeyNotFoundException($"QualityFormatID '{formatIdString}' not found.");
         }
 
         public static (string displayQuality, string pathSafeQuality) GetQualityStrings(string formatIdString)
         {
             if (QualityMappings.TryGetValue(formatIdString, out var value))
+            {
                 return value;
-            else
-                throw new KeyNotFoundException($"QualityFormatID '{formatIdString}' not found.");
+            }
+
+            throw new KeyNotFoundException($"QualityFormatID '{formatIdString}' not found.");
         }
 
         public static (string displayQuality, string pathSafeQuality) GetQualityStrings(string formatIdString, Album qobuzAlbum)
@@ -64,6 +68,6 @@ namespace QobuzDownloaderX.Shared.Tools
 
             return (displayQuality, pathSafeQuality);
         }
-
+		
     }
 }

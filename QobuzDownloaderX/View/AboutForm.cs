@@ -21,7 +21,7 @@ namespace QobuzDownloaderX.View
 
         private void exitLabel_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void panel1_MouseMove(object sender, MouseEventArgs e)

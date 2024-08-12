@@ -40,7 +40,10 @@ namespace QobuzDownloaderX.Shared
         public static Font CreateFont(string fontFamilyName, float size, FontStyle style = FontStyle.Regular)
         {
             var fontFamily = GetFontFamily(fontFamilyName);
-            return fontFamily != null ? new Font(fontFamily, size, style) : null;
+
+            return fontFamily != null
+                ? new Font(fontFamily, size, style)
+                : null;
         }
     }
 }
