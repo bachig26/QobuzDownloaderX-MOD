@@ -355,7 +355,7 @@ namespace QobuzDownloaderX.Shared
 				
 				i++;
 
-                if (i != tracksLoaded - 1 || tracksTotal <= i + tracksPageOffset)
+                if (i == tracksLoaded && tracksTotal > (i + tracksPageOffset))
                 {
                     continue;
                 }
