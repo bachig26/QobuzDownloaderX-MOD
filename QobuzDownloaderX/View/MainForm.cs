@@ -80,7 +80,7 @@ namespace QobuzDownloaderX.View
                 _isUserSubscribed = Globals.Login.User.Subscription.EndDate != null &&
                                     Globals.Login.User.Subscription.EndDate.Value > DateTimeOffset.Now;
             }
-            else if (Globals.Login.User.Credential.Parameters.Source == "household" && Globals.Login.User.Credential.Parameters.HiresStreaming == true)
+            else if (Globals.Login.User?.Credential?.Parameters?.Source == "household" && Globals.Login.User.Credential.Parameters?.HiresStreaming == true)
             {
                 output.Invoke(new Action(() => output.AppendText("Active Family sub-account, unknown End Date \r\n")));
                 output.Invoke(new Action(() => output.AppendText("Credential Label - " + Globals.Login.User.Credential.Label + "\r\n")));
