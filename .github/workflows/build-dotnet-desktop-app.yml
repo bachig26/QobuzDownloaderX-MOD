@@ -33,7 +33,7 @@ jobs:
         msbuild.exe QobuzDownloaderX.sln /p:platform="Any CPU" /p:configuration="Release"
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@v4.3.4
+      uses: actions/upload-artifact@v4.3.6
       with:
         name: QBDLX-MOD_${{github.ref_name}}
         path: QobuzDownloaderX\bin\Release
