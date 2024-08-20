@@ -124,7 +124,7 @@ namespace QobuzDownloaderX.Shared
 
         public async Task DownloadFileAsync(HttpClient httpClient, string downloadUrl, string filePath)
         {
-            using (var streamToReadFrom = await httpClient.GetStreamAsync(downloadUrl))
+            using (var streamToReadFrom = await httpClient.GetStreamAsync(downloadUrl).ConfigureAwait(false))
             {
                 using var streamToWriteTo = File.Create(filePath);
 
@@ -238,7 +238,7 @@ namespace QobuzDownloaderX.Shared
                     httpClient.DefaultRequestHeaders.Add("User-Agent", Globals.USER_AGENT);
 
                     // Save streamed file from link
-                    await DownloadFileAsync(httpClient, streamUrl, DownloadPaths.FullTrackFilePath);
+                    await DownloadFileAsync(httpClient, streamUrl, DownloadPaths.FullTrackFilePath).ConfigureAwait(false);
 
                     // Download selected cover art size for tagging files (if not exists)
                     if (!File.Exists(coverArtTagFilePath))
@@ -616,7 +616,7 @@ namespace QobuzDownloaderX.Shared
                     switch (downloadItem.Type)
                     {
                         case "track":
-                            await StartDownloadTrackTaskAsync(_cancellationTokenSource.Token);
+                            await StartDownloadTrackTaskAsync(_cancellationTokenSource.Token).ConfigureAwait(false);
                             break;
                         case "album":
                             await StartDownloadAlbumTaskAsync(_cancellationTokenSource.Token);
@@ -705,7 +705,7 @@ namespace QobuzDownloaderX.Shared
                 _logger.AddDownloadLogLine($"Track \"{qobuzTrack.Title}\" found. Starting Download...", true, true);
                 _logger.AddEmptyDownloadLogLine(true, true);
 
-                var fileDownloaded = await DownloadTrackAsync(cancellationToken, qobuzTrack, downloadBasePath, true, false, true);
+                var fileDownloaded = await DownloadTrackAsync(cancellationToken, qobuzTrack, downloadBasePath, true, false, true).ConfigureAwait(false);
 
                 // If download failed, abort
                 if (!fileDownloaded)

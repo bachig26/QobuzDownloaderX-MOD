@@ -12,13 +12,11 @@ namespace QobuzDownloaderX.Shared
         private readonly string _downloadErrorLogPath = Path.Combine(Globals.LoggingDir, $"Download_Errors_{DateTime.Now:yyyy-mm-dd.HHmmss}.log");
 
         private readonly DownloadEnded _updateUiOnDownloadEnd;
-        private TextBox ScreenOutputTextBox { get; }
 
         public string DownloadLogPath { get; set; }
 
         public DownloadLogger(TextBox outputTextBox, DownloadEnded updateUiOnDownloadEnd)
         {
-            ScreenOutputTextBox = outputTextBox;
             _updateUiOnDownloadEnd = updateUiOnDownloadEnd;
         }
 
@@ -47,10 +45,12 @@ namespace QobuzDownloaderX.Shared
                 return;
             }
 
-            if (logToScreen)
-            {
-                ScreenOutputTextBox?.Invoke(new Action(() => ScreenOutputTextBox.AppendText(logEntry)));
-            }
+            //if (logToScreen)
+            //{
+            //    ScreenOutputTextBox?.Invoke(new Action(() => ScreenOutputTextBox.AppendText(logEntry)));
+            //}
+			
+			Console.WriteLine(logEntry);
 
             if (!logToFile)
             {
@@ -148,7 +148,7 @@ namespace QobuzDownloaderX.Shared
 
         public void ClearUiLogComponent()
         {
-            ScreenOutputTextBox.Invoke(new Action(() => ScreenOutputTextBox.Text = String.Empty));
+            //ScreenOutputTextBox.Invoke(new Action(() => ScreenOutputTextBox.Text = String.Empty));
         }
     }
 }
